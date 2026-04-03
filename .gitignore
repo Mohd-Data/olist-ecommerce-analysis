@@ -1,0 +1,11 @@
+# 1. Ignore all Olist Data (The heavy stuff)
+*.csv
+
+# 2. Ignore your Google Cloud Security Key (The private stuff)
+service_account.json
+
+# 3. Ignore Python and VS Code clutter (The junk stuff)
+__pycache__/
+.env
+.venv
+.vscode/
