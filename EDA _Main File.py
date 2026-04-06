@@ -1,4 +1,6 @@
 import pandas as pd
+from google.cloud import bigquery
+
 
 orders = pd.read_csv("olist_orders_dataset.csv", parse_dates=["order_purchase_timestamp","order_approved_at","order_delivered_carrier_date","order_delivered_customer_date","order_estimated_delivery_date"])
 customers = pd.read_csv("olist_customers_dataset.csv")
@@ -59,14 +61,62 @@ def outlier_func(x):
 
 print(outlier_func(order_payments["payment_value"]).sort_values())
 
-#Date value checks on orders table:
-print(orders["order_purchase_timestamp"].min())
-print(orders["order_purchase_timestamp"].max())
-print(orders["order_approved_at"].min())
-print(orders["order_approved_at"].max())
-print(orders["order_delivered_carrier_date"].min())
-print(orders["order_delivered_carrier_date"].max())
-print(orders["order_delivered_customer_date"].min())
-print(orders["order_delivered_customer_date"].max())
-print(orders["order_estimated_delivery_date"].min())
-print(orders["order_estimated_delivery_date"].max())
+#customer_id and unique_customer_id validation
+print(customers.groupby('customer_unique_id', dropna = False)['customer_id'].nunique().sort_values(ascending=False).head())
+
+#order_id and customer_id checks across the tables
+print(order_items["order_id"].isin(orders["order_id"]).value_counts())
+print(customers["customer_id"].isin(orders["customer_id"]).value_counts())
+
+#Creating copy of DFs for uploading to GCP
+Orders_GCP = orders.copy()
+customers_GCP = customers.copy()
+geolocs_GCP  = geolocs.copy()
+order_items_GCP = order_items.copy()
+order_payments_GCP = order_payments.copy()
+order_reviews_GCP = order_reviews.copy()
+products_GCP = products.copy()
+sellers_GCP = sellers.copy()
+product_category_names_GCP = product_category_names.copy()
+
+
+#Configuration - Use your Project ID
+PROJECT_ID = "olist-e-commerce-analysis" 
+DATASET_ID = "olist_raw"
+ # A new dataset for your clean data
+
+client = bigquery.Client(project=PROJECT_ID)
+dataset_ref = client.dataset(DATASET_ID)
+
+
+#Define the tables you want to upload
+# Dictionary format: { "Table_Name_In_BQ" : DataFrame_Variable }
+data_to_upload = {
+    "orders": Orders_GCP,
+    "customers": customers_GCP,
+    "geolocs": geolocs_GCP,
+    "order_items": order_items_GCP,
+    "order_payments": order_payments_GCP,
+    "order_reviews": order_reviews_GCP,
+    "products": products_GCP,
+    "sellers": sellers_GCP,
+    "product_category_names": product_category_names_GCP
+}
+
+# 4. Upload Loop
+for table_name, df in data_to_upload.items():
+    table_ref = dataset_ref.table(table_name)
+    
+    # Configure the job
+    job_config = bigquery.LoadJobConfig(
+        write_disposition="WRITE_TRUNCATE", # Overwrites if you run it again
+        autodetect=True                     # Automatically maps Python types to SQL types
+    )
+    
+    print(f"Uploading {table_name} to BigQuery...")
+    job = client.load_table_from_dataframe(df, table_ref, job_config=job_config)
+    job.result() # Wait for completion
+    
+    print(f"Successfully uploaded {table_name}. Total rows: {len(df)}")
+
+print("\nAll cleaned data is now in BigQuery!")

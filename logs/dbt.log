@@ -1,0 +1,30 @@
+[0m22:54:42.761220 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002797FFB1A90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002797ED60050>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x00000279032A3C50>]}
+
+
+============================== 22:54:42.765199 | 027c34e2-0717-49ab-a8a0-f034296b6204 ==============================
+[0m22:54:42.765199 [info ] [MainThread]: Running with dbt=1.11.7
+[0m22:54:42.765689 [debug] [MainThread]: running dbt with arguments {'version_check': 'True', 'no_print': 'None', 'static_parser': 'True', 'target_path': 'None', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'printer_width': '80', 'write_json': 'True', 'empty': 'None', 'log_cache_events': 'False', 'introspect': 'True', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'partial_parse': 'True', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'profiles_dir': 'C:\\Users\\msyed\\.dbt', 'indirect_selection': 'eager', 'use_colors': 'True', 'invocation_command': 'dbt init olist_project', 'use_experimental_parser': 'False', 'log_path': 'logs'}
+[0m22:54:42.779497 [info ] [MainThread]: Creating dbt configuration folder at C:\Users\msyed\.dbt
+[0m22:54:42.781353 [debug] [MainThread]: Starter project path: C:\Users\msyed\AppData\Local\Programs\Python\Python313\Lib\site-packages\dbt\include\starter_project
+[0m22:54:42.801136 [info ] [MainThread]: 
+Your new dbt project "olist_project" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m22:54:42.802703 [info ] [MainThread]: Setting up your profile.
+[0m23:10:12.214777 [info ] [MainThread]: Profile olist_project written to C:\Users\msyed\.dbt\profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m23:10:12.220752 [debug] [MainThread]: Command `dbt init` succeeded at 23:10:12.220498 after 929.61 seconds
+[0m23:10:12.221588 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002791ED44E90>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x0000027903212210>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000002791ED85370>]}
+[0m23:10:12.222280 [debug] [MainThread]: Flushing usage events
+[0m23:10:13.558948 [debug] [MainThread]: An error was encountered while trying to flush usage events
